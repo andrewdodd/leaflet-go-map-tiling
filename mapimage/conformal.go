@@ -1,10 +1,5 @@
 package mapimage
 
-// 2D Conformal Transformation
-//
-// All of this stuff is just an implementation of the processes described in the
-// Bentley 2D Conformal Transformation pdf
-
 import (
 	"gonum.org/v1/gonum/mat"
 	"math"
@@ -35,18 +30,14 @@ func NewConformalTransformationFromPoints(standardPoints []Point, localPoints []
 		y2, x2, 0, 1,
 	})
 
-	var invX mat.Dense
-	err := invX.Inverse(X)
+	var trans mat.Dense
+	err := trans.Solve(X, E)
 	if err != nil {
 		return ConformalTransformation{}, err
 	}
 
-	var trans mat.Dense
-	trans.Mul(&invX, E)
-
 	// printMat("E", E)
 	// printMat("X", X)
-	// printMat("invX", &invX)
 	// printMat("trans", &trans)
 
 	return ConformalTransformation{&trans}, nil

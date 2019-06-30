@@ -28,19 +28,15 @@ func NewAffineNoRotTransformationFromPoints(standardPoints []Point, localPoints 
 		0, y2, 0, 1,
 	})
 
-	var invX mat.Dense
-	err := invX.Inverse(X)
+	var trans mat.Dense
+	err := trans.Solve(X, E)
 	if err != nil {
 		return AffineNoRotTransformation{}, err
 	}
 
-	var trans mat.Dense
-	trans.Mul(&invX, E)
-
 	// printMat("E", E)
 	// printMat("X", X)
-	// printMat("invX", &invX)
-	//printMat("trans", &trans)
+	// printMat("trans", &trans)
 
 	return AffineNoRotTransformation{&trans}, nil
 }

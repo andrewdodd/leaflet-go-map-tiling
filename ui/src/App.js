@@ -1,49 +1,79 @@
-import React, { Component } from 'react'
-import logo from './logo.svg'
+import React from 'react'
 import './App.css'
-
-import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import {ImageOverlay, LayersControl, Map, TileLayer} from 'react-leaflet'
 
-import {
-  Map,
-  Marker,
-  Popup,
-  TileLayer,
-  LayersControl,
-  ImageOverlay
-} from 'react-leaflet'
+// { "id":,
+//   "bounds": [{lat:,lng}, {lat:lng}],
+//   "name":,
+//   "minZoom",
+//   "maxZoom",
+//   "referencePoints": [...],
+//   "image":
+//   "tileed":
+//   }
 
-const maps = [
-  {
-    id: 'new-york',
-    text: 'New York Street Map',
-    image: './newyork.jpg',
-    bounds: [
-      { lat: 40.981637441018464, lng: -74.07707825303079 },
-      { lat: 40.537934245343585, lng: -73.70349347591402 }
-    ]
-  },
-  {
-    id: 'dardanelles',
-    text: 'Dardanelles',
-    image: './dardanelles.jpg',
-    bounds: [
-      { lat: 40.47835358455652, lng: 26.12436711788178 },
-      { lat: 39.90604077881996, lng: 26.666804687500004 }
-    ]
-  }
-]
+// const maps = [
+//   {
+//     id: 'new-york',
+//     text: 'New York Street Map',
+//     image: './newyork.jpg',
+//     bounds: [
+//       { lat: 40.981637441018464, lng: -74.07707825303079 },
+//       { lat: 40.537934245343585, lng: -73.70349347591402 }
+//     ]
+//   },
+//   {
+//     id: 'dardanelles',
+//     text: 'Dardanelles',
+//     image: './dardanelles.jpg',
+//     bounds: [
+//       { lat: 40.47835358455652, lng: 26.12436711788178 },
+//       { lat: 39.90604077881996, lng: 26.666804687500004 }
+//     ]
+//   }
+// ]
+// 
+// class TodoApp extends React.Component {
+//   constructor (props) {
+//     super(props)
+//     this.state = { mapId: 'dardanelles' }
+//     this.selectMap = this.selectMap.bind(this)
+//   }
+// 
+//   render () {
+//     const map = maps.filter(m => m.id === this.state.mapId)[0]
 
 class TodoApp extends React.Component {
+  state = { mapId: null, mapImages: [] }
   constructor (props) {
     super(props)
-    this.state = { mapId: 'dardanelles' }
     this.selectMap = this.selectMap.bind(this)
   }
 
+  componentDidMount () {
+    var that = this
+    fetch('/api/imageinfo')
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (mapImages) {
+        that.setState({ mapId: mapImages[0].id, mapImages })
+      })
+  }
+
   render () {
-    const map = maps.filter(m => m.id === this.state.mapId)[0]
+    const { mapImages, mapId } = this.state
+    const mapImage = mapImages.filter(m => m.id === mapId)[0]
+    if (!mapImage) {
+      return (
+        <div className='App'>
+          <header className='App-header'>
+            <h1 className='App-title'>Loading...</h1>
+          </header>
+        </div>
+      )
+    }
     return (
       <div className='App'>
         <header className='App-header'>
@@ -51,7 +81,7 @@ class TodoApp extends React.Component {
         </header>
         <div>
           <ul>
-            {maps.map(({ id, text }) => (
+            {mapImages.map(({ id, text }) => (
               <button key={id} onClick={() => this.selectMap(id)}>
                 {text}
               </button>
@@ -61,7 +91,7 @@ class TodoApp extends React.Component {
             onClick={e => {
               console.log('clicked', e.latlng)
             }}
-            bounds={map.bounds}
+            bounds={mapImage.geo_bounds}
             zoom={12}
             style={{
               height: '800px',
@@ -71,15 +101,29 @@ class TodoApp extends React.Component {
             }}
           >
             <LayersControl>
-              <LayersControl.Overlay name='Open Street Map' checked>
+              <LayersControl.Overlay
+                name='Open Street Map'
+                checked
+                key='open-street-map'
+              >
                 <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
               </LayersControl.Overlay>
-              <LayersControl.Overlay name={map.text} id={map.id} checked>
+              <LayersControl.Overlay
+                name='Single Image'
+                id={mapImage.id}
+                checked
+                key='single-image'
+              >
                 <ImageOverlay
-                  url={map.image}
-                  bounds={map.bounds}
-                  opacity={0.5}
+                  url={mapImage.image}
+                  bounds={mapImage.geo_bounds}
                 />
+              </LayersControl.Overlay>
+              <LayersControl.Overlay
+                name='Tiled'
+                key='tiled'
+              >
+                <TileLayer url={mapImage.tiled} tms={mapImage.tiled.indexOf("tms") !== -1} />
               </LayersControl.Overlay>
             </LayersControl>
           </Map>
@@ -90,16 +134,6 @@ class TodoApp extends React.Component {
 
   selectMap (e) {
     this.setState({ mapId: e })
-  }
-}
-
-class TodoList extends React.Component {
-  render () {
-    return (
-      <ul>
-        {this.props.items.map(item => <li key={item.id}>{item.text}</li>)}
-      </ul>
-    )
   }
 }
 

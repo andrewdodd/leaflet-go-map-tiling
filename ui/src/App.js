@@ -1,4 +1,5 @@
 import React from 'react'
+import Control from 'react-leaflet-control'
 import './App.css'
 import 'leaflet/dist/leaflet.css'
 import {ImageOverlay, LayersControl, Map, TileLayer} from 'react-leaflet'
@@ -45,10 +46,11 @@ import {ImageOverlay, LayersControl, Map, TileLayer} from 'react-leaflet'
 //     const map = maps.filter(m => m.id === this.state.mapId)[0]
 
 class TodoApp extends React.Component {
-  state = { mapId: null, mapImages: [] }
+  state = { mapId: null, mapImages: [], opacity: 0.7}
   constructor (props) {
     super(props)
     this.selectMap = this.selectMap.bind(this)
+    this.updateOpacity = this.updateOpacity.bind(this)
   }
 
   componentDidMount () {
@@ -63,7 +65,7 @@ class TodoApp extends React.Component {
   }
 
   render () {
-    const { mapImages, mapId } = this.state
+    const { mapImages, mapId , opacity } = this.state
     const mapImage = mapImages.filter(m => m.id === mapId)[0]
     if (!mapImage) {
       return (
@@ -77,7 +79,7 @@ class TodoApp extends React.Component {
     return (
       <div className='App'>
         <header className='App-header'>
-          <h1 className='App-title'>Welcome to TODO</h1>
+          <h1 className='App-title'>Leaflet Map Tiling in Go</h1>
         </header>
         <div>
           <ul>
@@ -102,29 +104,44 @@ class TodoApp extends React.Component {
           >
             <LayersControl>
               <LayersControl.Overlay
-                name='Open Street Map'
+                name={'Open Street Map'}
                 checked
-                key='open-street-map'
+                key={'open-street-map'}
               >
                 <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
               </LayersControl.Overlay>
+
               <LayersControl.Overlay
-                name='Single Image'
-                id={mapImage.id}
-                checked
-                key='single-image'
+                name={'Single Image'}
+                key={'single-image'}
               >
                 <ImageOverlay
                   url={mapImage.image}
                   bounds={mapImage.geo_bounds}
+                  opacity={opacity}
                 />
               </LayersControl.Overlay>
+
               <LayersControl.Overlay
-                name='Tiled'
-                key='tiled'
+                name={'Tiled'}
+                key={'tiled'}
+                checked
               >
-                <TileLayer url={mapImage.tiled} tms={mapImage.tiled.indexOf("tms") !== -1} />
+                <TileLayer url={mapImage.tiled} tms={mapImage.tiled.indexOf("tms") !== -1} opacity={opacity}/>
               </LayersControl.Overlay>
+              <Control>
+                <span style={{backgroundColor: 'white'}}>
+                  Opacity: <input
+                    type="range"
+                    value={opacity}
+                    min={0.0}
+                    max={1.0}
+                    onChange={this.updateOpacity}
+                    name="myslider"
+                    step={0.01}
+                  />
+                </span>
+              </Control>
             </LayersControl>
           </Map>
         </div>
@@ -134,6 +151,10 @@ class TodoApp extends React.Component {
 
   selectMap (e) {
     this.setState({ mapId: e })
+  }
+
+  updateOpacity (e) {
+    this.setState({ opacity: e.target.value })
   }
 }
 

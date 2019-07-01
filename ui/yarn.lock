@@ -5524,6 +5524,10 @@ react-is@^16.7.0:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
 
+react-leaflet-control@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-leaflet-control/-/react-leaflet-control-2.1.1.tgz#ed90006c9d285872a2788fe15c11fc30ad14cdb0"
+
 react-leaflet@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-2.2.1.tgz#c33974f518ffc8b3b7221f72e00c28963b95314d"

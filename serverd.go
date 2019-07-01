@@ -69,13 +69,22 @@ func init() {
 		"new-york",
 		"New York Street Map",
 		[]mapimage.MapImagePair{
+			//mapimage.MapImagePair{
+			//	Geographic: mapimage.LatLng{Lat: 40.981637441018464, Lng: -74.07707825303079},
+			//	Pixel:      mapimage.LatLng{Lat: 0, Lng: 0},
+			//},
+			//mapimage.MapImagePair{
+			//	Geographic: mapimage.LatLng{Lat: 40.537934245343585, Lng: -73.70349347591402},
+			//	Pixel:      mapimage.LatLng{Lat: 10760, Lng: 7500},
+			//},
+
 			mapimage.MapImagePair{
-				Geographic: mapimage.LatLng{Lat: 40.981637441018464, Lng: -74.07707825303079},
-				Pixel:      mapimage.LatLng{Lat: 0, Lng: 0},
+				Geographic: mapimage.LatLng{Lat: 40.60546022248996, Lng: -73.73805298469962},
+				Pixel:      mapimage.LatLng{Lat: 9150, Lng: 6605},
 			},
 			mapimage.MapImagePair{
-				Geographic: mapimage.LatLng{Lat: 40.537934245343585, Lng: -73.70349347591402},
-				Pixel:      mapimage.LatLng{Lat: 10760, Lng: 7500},
+				Geographic: mapimage.LatLng{Lat: 40.85451808185084, Lng: -73.96788317710163},
+				Pixel:      mapimage.LatLng{Lat: 2979, Lng: 2165},
 			},
 		},
 		20, 0,
@@ -89,13 +98,52 @@ func init() {
 		"dardanelles",
 		"Dardanelles",
 		[]mapimage.MapImagePair{
+			//mapimage.MapImagePair{
+			//	Geographic: mapimage.LatLng{Lat: 40.47835358455652, Lng: 26.12436711788178},
+			//	Pixel:      mapimage.LatLng{Lat: 0, Lng: 0},
+			//},
+			//mapimage.MapImagePair{
+			//	Geographic: mapimage.LatLng{Lat: 39.90604077881996, Lng: 26.666804687500004},
+			//	Pixel:      mapimage.LatLng{Lat: 15328, Lng: 10507},
+			//},
+			//mapimage.MapImagePair{
+			//	Geographic: mapimage.LatLng{Lat: 40.4166666667, Lng: 26.25},
+			//	Pixel:      mapimage.LatLng{Lat: 1756, Lng: 2531},
+			//},
+			//mapimage.MapImagePair{
+			//	Geographic: mapimage.LatLng{Lat: 40.0, Lng: 26.5},
+			//	Pixel:      mapimage.LatLng{Lat: 13140, Lng: 7128},
+			//},
+
 			mapimage.MapImagePair{
-				Geographic: mapimage.LatLng{Lat: 40.47835358455652, Lng: 26.12436711788178},
-				Pixel:      mapimage.LatLng{Lat: 0, Lng: 0},
+				Geographic: mapimage.LatLng{Lat: 40.31616033970402, Lng: 26.215285495854918},
+				Pixel:      mapimage.LatLng{Lat: 4468, Lng: 1881},
 			},
 			mapimage.MapImagePair{
-				Geographic: mapimage.LatLng{Lat: 39.90604077881996, Lng: 26.666804687500004},
-				Pixel:      mapimage.LatLng{Lat: 15328, Lng: 10507},
+				Geographic: mapimage.LatLng{Lat: 40.19632084987176, Lng: 26.40120327472687},
+				Pixel:      mapimage.LatLng{Lat: 7736, Lng: 5532},
+			},
+		},
+		20, 0,
+		f,
+	))
+	f, err = os.Open(fmt.Sprintf("./ui/public/%s", "victoria.jpg"))
+	if err != nil {
+		fmt.Println(err)
+	}
+	maps.images = append(maps.images, mapimage.NewImageInfo(
+		"victoria",
+		"Victoria",
+		[]mapimage.MapImagePair{
+			mapimage.MapImagePair{
+				// Wilson's Prom
+				Geographic: mapimage.LatLng{Lat: -39.13671378536617, Lng: 146.3738697767258},
+				Pixel:      mapimage.LatLng{Lat: 6074, Lng: 5261},
+			},
+			mapimage.MapImagePair{
+				// Bend in Darling N of Wentworth
+				Geographic: mapimage.LatLng{Lat: -34.07636553205934, Lng: 141.9288955628872},
+				Pixel:      mapimage.LatLng{Lat: 740, Lng: 1281},
 			},
 		},
 		20, 0,

@@ -81,26 +81,26 @@ func init() {
 		20, 0,
 		f,
 	))
-	//f, err = os.Open(fmt.Sprintf("./ui/public/%s", "dardanelles.jpg"))
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	//maps.images = append(maps.images, mapimage.NewImageInfo(
-	//	"dardanelles",
-	//	"Dardanelles",
-	//	[]mapimage.MapImagePair{
-	//		mapimage.MapImagePair{
-	//			Geographic: mapimage.LatLng{Lat: 40.47835358455652, Lng: 26.12436711788178},
-	//			Pixel:      mapimage.LatLng{Lat: 0, Lng: 0},
-	//		},
-	//		mapimage.MapImagePair{
-	//			Geographic: mapimage.LatLng{Lat: 39.90604077881996, Lng: 26.666804687500004},
-	//			Pixel:      mapimage.LatLng{Lat: 15328, Lng: 10507},
-	//		},
-	//	},
-	//	20, 0,
-	//	f,
-	//))
+	f, err = os.Open(fmt.Sprintf("./ui/public/%s", "dardanelles.jpg"))
+	if err != nil {
+		fmt.Println(err)
+	}
+	maps.images = append(maps.images, mapimage.NewImageInfo(
+		"dardanelles",
+		"Dardanelles",
+		[]mapimage.MapImagePair{
+			mapimage.MapImagePair{
+				Geographic: mapimage.LatLng{Lat: 40.47835358455652, Lng: 26.12436711788178},
+				Pixel:      mapimage.LatLng{Lat: 0, Lng: 0},
+			},
+			mapimage.MapImagePair{
+				Geographic: mapimage.LatLng{Lat: 39.90604077881996, Lng: 26.666804687500004},
+				Pixel:      mapimage.LatLng{Lat: 15328, Lng: 10507},
+			},
+		},
+		20, 0,
+		f,
+	))
 }
 
 func (obj db) ListAll() []mapimage.MapImage {

@@ -157,6 +157,20 @@ func (ii *ImageInfo) ImageContent() io.ReadSeeker {
 	return ii.contents
 }
 
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
 func (ii ImageInfo) MapTile(zoom, x, y int64) io.ReadSeeker {
 
 	tileMin, tileMax := TileLatLonBounds(x, y, zoom)
@@ -167,17 +181,46 @@ func (ii ImageInfo) MapTile(zoom, x, y int64) io.ReadSeeker {
 	img := image.NewRGBA(tileSize)
 	draw.Draw(img, img.Bounds(), &image.Uniform{color.Black}, image.ZP, draw.Src)
 
-	srcRect := image.Rect(
+	tileRect := image.Rect(
 		int(math.Round(pxlMax.Lng)),
 		int(math.Round(pxlMax.Lat)),
 		int(math.Round(pxlMin.Lng)),
 		int(math.Round(pxlMin.Lat)),
 	)
 
-	//scaler := draw.BiLinear
-	//scaler := draw.NearestNeighbor
-	scaler := draw.ApproxBiLinear
-	scaler.Scale(img, tileSize, ii.image, srcRect, draw.Over, nil)
+	imgBounds := ii.image.Bounds()
+	if imgBounds.Overlaps(tileRect) {
+		srcRect := image.Rect(
+			max(tileRect.Min.X, imgBounds.Min.X),
+			max(tileRect.Min.Y, imgBounds.Min.Y),
+			min(tileRect.Max.X, imgBounds.Max.X),
+			min(tileRect.Max.Y, imgBounds.Max.Y),
+		)
+
+		dstRect := tileSize
+		if srcRect.Max.X != tileRect.Max.X {
+			// Reduce the right hand side of dstRect by the same ratio
+			dstRect.Max.X -= int(float64(tileSize.Dx()) * (float64(tileRect.Max.X-srcRect.Max.X) / float64(tileRect.Dx())))
+		}
+
+		if srcRect.Min.X != tileRect.Min.X {
+			// Increase the left hand side of dstRect by the same ratio
+			dstRect.Min.X += int(float64(tileSize.Dx()) * (float64(srcRect.Min.X-tileRect.Min.X) / float64(tileRect.Dx())))
+		}
+
+		if srcRect.Max.Y != tileRect.Max.Y {
+			dstRect.Max.Y -= int(float64(tileSize.Dy()) * (float64(tileRect.Max.Y-srcRect.Max.Y) / float64(tileRect.Dy())))
+		}
+
+		if srcRect.Min.Y != tileRect.Min.Y {
+			dstRect.Min.Y += int(float64(tileSize.Dy()) * (float64(srcRect.Min.Y-tileRect.Min.Y) / float64(tileRect.Dy())))
+		}
+
+		//scaler := draw.BiLinear
+		//scaler := draw.NearestNeighbor
+		scaler := draw.ApproxBiLinear
+		scaler.Scale(img, dstRect, ii.image, srcRect, draw.Over, nil)
+	}
 
 	w := bytes.Buffer{}
 	png.Encode(&w, img)

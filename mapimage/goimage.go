@@ -112,7 +112,6 @@ func (ii *goImage) ImageContent() io.ReadSeeker {
 }
 
 func (ii goImage) MapTile(zoom, x, y int64) io.ReadSeeker {
-
 	tileMin, tileMax := TileLatLonBounds(x, y, zoom)
 	pxlMin := ii.PixelFromGeo(LatLng(tileMin))
 	pxlMax := ii.PixelFromGeo(LatLng(tileMax))

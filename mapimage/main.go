@@ -60,8 +60,8 @@ type ImageInfo struct {
 
 	contents *os.File
 	image    image.Image
-	toGeo    AffineNoRotTransformation
-	toPixel  AffineNoRotTransformation
+	toGeo    Transformation
+	toPixel  Transformation
 }
 
 func NewImageInfo(
@@ -101,8 +101,8 @@ func NewImageInfo(
 		//referencePoints: referencePoints,
 		contents: contents,
 		image:    image,
-		toGeo:    toGeo,
-		toPixel:  toPixel,
+		toGeo:    &toGeo,
+		toPixel:  &toPixel,
 	}
 
 }

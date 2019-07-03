@@ -74,7 +74,7 @@ func NewImageInfo(
 	referencePoints []MapImagePair,
 	minZoom int,
 	maxZoom int,
-	contents *os.File) ImageInfo {
+	contents *os.File) MapImage {
 	//image, err := png.Decode(bytes.NewReader(fileContents))
 	image, _, err := image.Decode(contents)
 	if err != nil {
@@ -97,7 +97,7 @@ func NewImageInfo(
 		panic(0)
 	}
 
-	return ImageInfo{
+	return &ImageInfo{
 		id:      id,
 		text:    text,
 		minZoom: minZoom,

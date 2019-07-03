@@ -50,7 +50,7 @@ import (
 // }
 
 type db struct {
-	images []mapimage.ImageInfo
+	images []mapimage.MapImage
 }
 
 var maps db
@@ -154,7 +154,7 @@ func init() {
 func (obj db) ListAll() []mapimage.MapImage {
 	items := make([]mapimage.MapImage, 0)
 	for idx, _ := range obj.images {
-		items = append(items, &obj.images[idx])
+		items = append(items, obj.images[idx])
 	}
 	return items
 }
@@ -162,7 +162,7 @@ func (obj db) ListAll() []mapimage.MapImage {
 func (obj db) GetById(id string) (mapimage.MapImage, error) {
 	for _, ii := range obj.images {
 		if ii.Id() == id {
-			return &ii, nil
+			return ii, nil
 		}
 	}
 	return nil, errors.New("not found")

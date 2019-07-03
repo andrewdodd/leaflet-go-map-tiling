@@ -137,18 +137,24 @@ func init() {
 		[]mapimage.MapImagePair{
 			mapimage.MapImagePair{
 				// Wilson's Prom
-				Geographic: mapimage.LatLng{Lat: -39.13671378536617, Lng: 146.3738697767258},
-				Pixel:      mapimage.LatLng{Lat: 6074, Lng: 5261},
+				Geographic: mapimage.LatLng{Lat: -39.12508319721687, Lng: 146.38780117034915},
+				Pixel:      mapimage.LatLng{Lat: 6061, Lng: 5268},
 			},
+			//mapimage.MapImagePair{
+			//	// Ouyen
+			//	Geographic: mapimage.LatLng{Lat: -35.07002183779882, Lng: 142.318921610713},
+			//	Pixel:      mapimage.LatLng{Lat: 1785, Lng: 1655},
+			//},
 			mapimage.MapImagePair{
-				// Bend in Darling N of Wentworth
-				Geographic: mapimage.LatLng{Lat: -34.07636553205934, Lng: 141.9288955628872},
-				Pixel:      mapimage.LatLng{Lat: 740, Lng: 1281},
+				// Lake Barracoota
+				Geographic: mapimage.LatLng{Lat: -37.52977423898922, Lng: 149.88080978393558},
+				Pixel:      mapimage.LatLng{Lat: 4396, Lng: 8278.4},
 			},
 		},
 		20, 0,
 		f,
 	))
+	log.Println("Running")
 }
 
 func (obj db) ListAll() []mapimage.MapImage {

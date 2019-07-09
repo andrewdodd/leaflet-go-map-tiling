@@ -1,0 +1,76 @@
+
+- id: new-york
+  name:		New York Street Map
+  filename: large_scale_HiRes_detailed_full_road_map_of_New_York_city_USA_with_all_street_names.jpg
+  referencePoints:
+    # mapimage.MapImagePair{
+    # 	Geographic: mapimage.LatLng{Lat: 40.981637441018464, Lng: -74.07707825303079},
+    # 	Pixel:      mapimage.LatLng{Lat: 0, Lng: 0},
+    # },
+    # mapimage.MapImagePair{
+    # 	Geographic: mapimage.LatLng{Lat: 40.537934245343585, Lng: -73.70349347591402},
+    # 	Pixel:      mapimage.LatLng{Lat: 10760, Lng: 7500},
+    # },
+    - geo: {lat: 40.60546022248996, lng: -73.73805298469962}
+      pixel: {lat: 9150, lng: 6605}
+    - geo: {Lat: 40.85451808185084, lng: -73.96788317710163}
+      pixel: {lat: 2979, lng: 2165}
+
+
+- id: dardenelles
+  name:		Dardenelles
+  filename: Orographical_map_of_the_Dardanelles_reduced_from_captured_Turkish_maps.jpg
+  referencePoints:
+    # mapimage.MapImagePair{
+    # 	Geographic: mapimage.LatLng{Lat: 40.47835358455652, Lng: 26.12436711788178},
+    # 	Pixel:      mapimage.LatLng{Lat: 0, Lng: 0},
+    # },
+    # mapimage.MapImagePair{
+    # 	Geographic: mapimage.LatLng{Lat: 39.90604077881996, Lng: 26.666804687500004},
+    # 	Pixel:      mapimage.LatLng{Lat: 15328, Lng: 10507},
+    # },
+    # mapimage.MapImagePair{
+    # 	Geographic: mapimage.LatLng{Lat: 40.4166666667, Lng: 26.25},
+    # 	Pixel:      mapimage.LatLng{Lat: 1756, Lng: 2531},
+    # },
+    # mapimage.MapImagePair{
+    # 	Geographic: mapimage.LatLng{Lat: 40.0, Lng: 26.5},
+    # 	Pixel:      mapimage.LatLng{Lat: 13140, Lng: 7128},
+    # },
+    - geo: {lat: 40.31616033970402, lng: 26.215285495854918}
+      pixel: {lat: 4468, lng: 1881}
+    - geo: {lat: 40.19632084987176, lng: 26.40120327472687}
+      pixel: {lat: 7736, lng: 5532}
+
+- id: victoria
+  name:		Victoria Pastoral
+  filename: vc003584-001.jpg
+  referencePoints:
+    # Wilson's Prom
+    - geo: {lat: -39.12508319721687, lng: 146.38780117034915}
+      pixel: {lat: 6061, lng: 5268}
+    # Lake Barracoota
+    - geo: {lat: -37.52977423898922, lng: 149.88080978393558}
+      pixel:      {lat: 4396, lng: 8278.4}
+
+- id: paris
+  name:		Paris
+  filename: U.S._Army_Map_Service,_Paris_1944_-_Mapster.jpg
+  referencePoints:
+    - geo: {lat: 48.828481545084266, lng: 2.3880087397992615}
+      pixel: {lat: 10895, lng: 12661}
+
+    - geo: {lat: 48.87377798344106, lng: 2.2950375080108647}
+      pixel: {lat: 5013, lng: 4633}
+
+
+- id: kurija-dere
+  name:		Kurija Dere
+  filename: Kurija_Dere_-_Gallipoli_-_Scale_1-20,000_Survey_Dept.,_Egypt_1915.jpg
+  referencePoints:
+    - geo: {lat: 40.20651101892472, lng: 26.267859590006996}
+      pixel: {lat: 12440, lng: 7963}
+
+    - geo: {lat: 40.282674143519124, lng: 26.324169100262225}
+      pixel: {lat: 2739, lng: 13928}
+

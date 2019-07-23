@@ -69,7 +69,6 @@ func init() {
 						loadedImage.Id,
 						loadedImage.Name,
 						loadedImage.ReferencePoints,
-						20, 0,
 						f)
 
 				} else {
@@ -78,7 +77,6 @@ func init() {
 						loadedImage.Id,
 						loadedImage.Name,
 						loadedImage.ReferencePoints,
-						20, 0,
 						f)
 					log.Printf(" >> MinZoom: %v MaxZoom: %v\n", mi.MinZoom(), mi.MaxZoom())
 				}

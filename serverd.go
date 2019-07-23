@@ -13,6 +13,7 @@ import (
 	"log"
 	"main/mapimage"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 )
 
@@ -79,6 +80,7 @@ func init() {
 						loadedImage.ReferencePoints,
 						20, 0,
 						f)
+					log.Printf(" >> MinZoom: %v MaxZoom: %v\n", mi.MinZoom(), mi.MaxZoom())
 				}
 				maps.images = append(maps.images, mi)
 			}
@@ -115,6 +117,10 @@ func main() {
 	mapimage.AttachApi(maps, api, "/imageinfo", "/file")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./ui/build")))
+
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
 
 	log.Fatal(http.ListenAndServe(":8000", router))
 

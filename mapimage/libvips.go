@@ -34,10 +34,7 @@ func NewVIPSImageInfo(
 	id,
 	text string,
 	referencePoints []MapImagePair,
-	minZoom int,
-	maxZoom int,
 	contents *os.File) MapImage {
-	//image, err := png.Decode(bytes.NewReader(fileContents))
 	imageConfig, format, err := image.DecodeConfig(contents)
 	if err != nil {
 		panic(0)
@@ -64,11 +61,11 @@ func NewVIPSImageInfo(
 		panic(0)
 	}
 
-	return &libvipsImage{
+	i := libvipsImage{
 		id:      id,
 		text:    text,
-		minZoom: minZoom,
-		maxZoom: maxZoom,
+		minZoom: 0,
+		maxZoom: 0,
 		//referencePoints: referencePoints,
 		contents:    contents,
 		fileBuf:     buf,
@@ -77,7 +74,9 @@ func NewVIPSImageInfo(
 		toGeo:       &toGeo,
 		toPixel:     &toPixel,
 	}
-
+	i.minZoom = calculateMinZoom(&i)
+	i.maxZoom = calculateMaxZoom(&i)
+	return &i
 }
 
 func (i libvipsImage) Id() string {

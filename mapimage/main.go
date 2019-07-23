@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"io"
+	"math"
 	"net/http"
 	"strconv"
 	"strings"
@@ -18,9 +19,12 @@ type MapImage interface {
 	Text() string
 	GeoBounds() [2]LatLng
 	PixelBounds() [2]LatLng
+	// The zoom where whole image is on a single tile?
 	MinZoom() int
+	// The zoom where image is being stretched by more than half?
 	MaxZoom() int
 	//ReferencePoints() []MapImagePair
+	GeoFromPixel(p LatLng) LatLng
 }
 
 type MapImagesSource interface {
@@ -54,6 +58,45 @@ func max(a, b int) int {
 		return a
 	}
 	return b
+}
+
+func calculateMinZoom(i MapImage) int {
+	// The zoom where whole image is on a single tile?
+	geoBounds := i.GeoBounds()
+	geoBoundsMin := geoBounds[0]
+	geoBoundsMax := geoBounds[1]
+
+	for z := 20; z > 0; z-- {
+		minX, minY := LatLonToPixels(geoBoundsMin.Lat, geoBoundsMin.Lng, z)
+		maxX, maxY := LatLonToPixels(geoBoundsMax.Lat, geoBoundsMax.Lng, z)
+		if math.Abs(minX-maxX) < 256 {
+			return z
+		}
+		if math.Abs(minY-maxY) < 256 {
+			return z
+		}
+	}
+
+	return 0
+}
+
+func calculateMaxZoom(i MapImage) int {
+	// The zoom where tiles start to stretch (i.e. pixel density limit)
+	singleTileMin := i.GeoFromPixel(LatLng{Lat: 0, Lng: 0})
+	singleTileMax := i.GeoFromPixel(LatLng{Lat: 256, Lng: 256})
+
+	for z := 0; z < 21; z++ {
+		minX, minY := LatLonToPixels(singleTileMin.Lat, singleTileMin.Lng, z)
+		maxX, maxY := LatLonToPixels(singleTileMax.Lat, singleTileMax.Lng, z)
+		if math.Abs(minX-maxX) > 256 {
+			return z
+		}
+		if math.Abs(minY-maxY) > 256 {
+			return z
+		}
+	}
+
+	return 20
 }
 
 type ApiRepresentation struct {

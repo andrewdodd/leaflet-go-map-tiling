@@ -29,10 +29,7 @@ func NewImageInfo(
 	id,
 	text string,
 	referencePoints []MapImagePair,
-	minZoom int,
-	maxZoom int,
 	contents *os.File) MapImage {
-	//image, err := png.Decode(bytes.NewReader(fileContents))
 	image, _, err := image.Decode(contents)
 	if err != nil {
 		panic(0)
@@ -52,11 +49,11 @@ func NewImageInfo(
 		panic(0)
 	}
 
-	return &goImage{
+	i := goImage{
 		id:              id,
 		text:            text,
-		minZoom:         minZoom,
-		maxZoom:         maxZoom,
+		minZoom:         0,
+		maxZoom:         0,
 		referencePoints: referencePoints,
 		contents:        contents,
 		image:           image,
@@ -64,14 +61,20 @@ func NewImageInfo(
 		toPixel:         &toPixel,
 	}
 
+	i.minZoom = calculateMinZoom(&i)
+	i.maxZoom = calculateMaxZoom(&i)
+
+	return &i
 }
 
 func (i goImage) Id() string {
 	return i.id
 }
+
 func (i goImage) Text() string {
 	return i.text
 }
+
 func (i goImage) GeoBounds() [2]LatLng {
 	imageSize := i.PixelBounds()
 

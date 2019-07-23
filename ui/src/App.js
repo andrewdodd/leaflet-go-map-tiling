@@ -93,8 +93,12 @@ class TodoApp extends React.Component {
             onClick={e => {
               console.log('clicked', e.latlng)
             }}
+            key={mapId} // force minZoom/maxZoom etc to be reset by forcing React to create a new map (NB: not very efficient)
             bounds={mapImage.geo_bounds}
-            zoom={12}
+            maxBounds={mapImage.geo_bounds}
+            // Allow 2 extra zooms, and prevent the last 2 extra zoom outs
+            minZoom={mapImage.minZoom + 2}
+            maxZoom={mapImage.maxZoom + 2}
             style={{
               height: '800px',
               width: '100%',

@@ -144,6 +144,12 @@ func (ii libvipsImage) MapTile(zoom, x, y int64) io.ReadSeeker {
 	}
 
 	// Check if file already exists
+	// FWIW...it is probably better to change this into its own middlewaresque
+	// functionality / MapImage implementation. That way any MapImage implementation could
+	// also cache its results to disk (and thus trade computation for storage).
+	// Maybe I'll do that in the future, but for now I'll just leave it here (VIPS has
+	// a concurrent limit that is quite obvious if you don't do this, so I think it
+	// always makes sense here)
 	path := fmt.Sprintf("./media/%s/%d/%d", ii.id, zoom, x)
 	filename := fmt.Sprintf("%s/%d", path, y)
 	if buf, err := ioutil.ReadFile(filename); err == nil {

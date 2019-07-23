@@ -107,13 +107,13 @@ func (obj db) GetById(id string) (mapimage.MapImage, error) {
 	return nil, errors.New("not found")
 }
 
-// our main function
 func main() {
 	router := mux.NewRouter()
 	api := router.PathPrefix("/api").Subrouter()
 
 	mapimage.AttachApi(maps, api, "/imageinfo", "/file")
 
+	// NB: the path is just hardcoded here!
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./ui/build")))
 
 	go func() {

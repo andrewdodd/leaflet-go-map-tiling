@@ -1,4 +1,4 @@
-#Leafet Map Tiling In Go
+# Leafet Map Tiling In Go
 
 This repo is really just to demo how to do on-the-fly map tiling in Go, such that they work with LeafletJS.
 

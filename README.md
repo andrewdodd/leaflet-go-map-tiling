@@ -64,3 +64,11 @@ If you would also like to run the UI, I usually (in another terminal):
 # Explanation
 
 I made this because it was interesting. For more info, you should be able to see a blog post on it soon at [adodd.net/post](http://adodd.net/post).
+
+You might be interested in:
+
+ - `mapimage/affinenorotation.go`, which implements an affine transformation for converting between image pixels and geographical coordinates
+ - The difference between the two map tiling implementations, which adhere to the `MapImage` interface (defined in `mapimage/main.go`), and show how to extract the correct part of a large image using only the Go library (`mapimage/goimage.go`) or the BIMG libvips wrapper (`mapimage/libvips.go`)
+ - The loading of the available map images in the `init()` function of `serverd.go`. It loads the meta info from the `images/config.yaml` and then decides whether to use the Go native or libvips implementation based on whether the in-memory image object is likely to be larger than 1GB (you can play with this number to see the difference).
+ - The interplay and options you need to chose in LeafletJS and your tiling path to get everything to work
+

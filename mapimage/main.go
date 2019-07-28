@@ -25,6 +25,7 @@ type MapImage interface {
 	MaxZoom() int
 	//ReferencePoints() []MapImagePair
 	GeoFromPixel(p LatLng) LatLng
+	PixelFromGeo(p LatLng) LatLng
 }
 
 type MapImagesSource interface {

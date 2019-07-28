@@ -2,7 +2,6 @@ package mapimage
 
 import (
 	"bytes"
-	"fmt"
 	"github.com/h2non/bimg"
 	"golang.org/x/image/draw"
 	"image"
@@ -143,19 +142,6 @@ func (ii libvipsImage) MapTile(zoom, x, y int64) io.ReadSeeker {
 		return bytes.NewReader(w.Bytes())
 	}
 
-	// Check if file already exists
-	// FWIW...it is probably better to change this into its own middlewaresque
-	// functionality / MapImage implementation. That way any MapImage implementation could
-	// also cache its results to disk (and thus trade computation for storage).
-	// Maybe I'll do that in the future, but for now I'll just leave it here (VIPS has
-	// a concurrent limit that is quite obvious if you don't do this, so I think it
-	// always makes sense here)
-	path := fmt.Sprintf("./media/%s/%d/%d", ii.id, zoom, x)
-	filename := fmt.Sprintf("%s/%d", path, y)
-	if buf, err := ioutil.ReadFile(filename); err == nil {
-		return bytes.NewReader(buf)
-	}
-
 	srcRect := image.Rect(
 		max(tileRect.Min.X, imgBounds.Min.X),
 		max(tileRect.Min.Y, imgBounds.Min.Y),
@@ -196,6 +182,7 @@ func (ii libvipsImage) MapTile(zoom, x, y int64) io.ReadSeeker {
 		return colorTile(zoom, x, y)
 	}
 
+	// change into an in-memory golang image (after a libvips one)
 	srcImage, _, err := image.Decode(bytes.NewReader(newImage))
 	if err != nil {
 		log.Println("decode image", err)
@@ -208,16 +195,8 @@ func (ii libvipsImage) MapTile(zoom, x, y int64) io.ReadSeeker {
 	scaler := draw.ApproxBiLinear
 	scaler.Scale(img, dstRect, srcImage, srcImage.Bounds(), draw.Over, nil)
 
-	err = os.MkdirAll(path, 0777)
-	if err != nil {
-		log.Println("path", err)
-		return colorTile(zoom, x, y)
-	}
-
 	w := bytes.Buffer{}
 	png.Encode(&w, img)
-
-	ioutil.WriteFile(filename, w.Bytes(), 0777)
 
 	return bytes.NewReader(w.Bytes())
 }

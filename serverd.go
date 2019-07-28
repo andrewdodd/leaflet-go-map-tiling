@@ -80,6 +80,8 @@ func init() {
 						f)
 					log.Printf(" >> MinZoom: %v MaxZoom: %v\n", mi.MinZoom(), mi.MaxZoom())
 				}
+
+				mi = mapimage.FilesystemCachedImage(mi)
 				maps.images = append(maps.images, mi)
 			}
 		} else {

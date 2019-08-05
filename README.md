@@ -5,7 +5,7 @@ This repo is really just to demo how to do on-the-fly map tiling in Go, such tha
 The repo consists of:
 
  * A basic UI, written in React, using React-Leaflet as the binding to LeafletJS
- * A basic server, written in Go, that serves a pre-build UI from the ./ui/build directory, reads in some config about map images, and then serves those images as either whole images or as a tile layer.
+ * A basic server, written in Go, that serves a pre-built UI from the ./ui/build directory, reads in some config about map images, and then serves those images as either whole images or as a tile layer.
 
 
 ## Caveats

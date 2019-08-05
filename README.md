@@ -63,7 +63,7 @@ If you would also like to run the UI, I usually (in another terminal):
 
 # Explanation
 
-I made this because it was interesting. For more info, you should be able to see a blog post on it soon at [adodd.net/post](http://adodd.net/post).
+I made this because it was interesting. For more info, you should be able to see a blog post on it [here](http://adodd.net/post/on-the-fly-map-tiling-with-go-and-leafletjs/).
 
 You might be interested in:
 
